@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+	  <title>ISSD Workspaces</title>
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="sidebar">
+        <h2>ISSD</h2>
+        <h4> <%=username%> </h4>
+        <ul>
+          <li><a href="sysInfo">System Information</a></li>
+          <li><a href="workspaces">Workspaces</a></li>
+          <% if (admin) { %>
+            <li><a>Edit users</a></li>
+          <% } %>
+          <li name="signout"><a href="signout">Sign Out</a></li>
+        </ul>
+      </div>
+      <div class="main_content">
+        <div class="header">
+          Edit Users
+        </div>
+        <div class="users">
+          <div class="newUser">
+            <form action="createUser" method="POST">
+              <legend name="formTitle"> Create new user </legend>
+              <input type="text" name="username" placeholder="Username" required>
+      				<input type="password" name="password" placeholder="Password" required>
+      				<input type="submit" value="Create">
+            </form>
+          </div>
+          <div class="deleteUser">
+            <form action="deleteUser" method="POST">
+              <legend name="formTitle"> Delete user </legend>
+              <input type="text" name="username" placeholder="Username" required>
+              <input type="password" name="password" placeholder="Password" required>
+              <input type="submit" value="Delete">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

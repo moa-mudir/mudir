@@ -1,0 +1,13 @@
+[Unit]
+Description=GPU management app daemon
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+EnvironmentFile=/home/<user>/gpu-docker-manager/.env
+WorkingDirectory=/home/<user>/gpu-docker-manager
+ExecStart=/usr/bin/node app.js
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ISSD Workspaces</title>
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="sidebar">
+            <h2>ISSD</h2>
+            <h4> <%=username%> </h4>
+            <ul>
+                <li><a>System Information</a></li>
+                <li><a href="workspaces">Workspaces</a></li>
+                <% if (admin) { %>
+                    <li><a href="editUsers">Edit users</a></li>
+                <% } %>
+                <li name="signout"><a href="signout">Sign Out</a></li>
+            </ul>
+        </div>
+        <div class="main_content">
+            <div class="header">System Information</div>
+            <div class="info">
+                <iframe src=<%="http://" + ip + ":9999/"%> ></iframe>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
