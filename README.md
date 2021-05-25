@@ -39,12 +39,12 @@ to start
 .env file
 | Plugin | Description | values (default)|
 | ------ | ------ |------|
-| DATABASE_HOST |  <ip> of mysql database| localhost 
-| DATABASE_USER | <username> of mysql database| root
-| DATABASE_PASSWORD |  <password> of mysql database| issd2009
-| DATABASE_PORT | <port> of database| 3306
-| DATABASE_NAME |  <name> of database| containers
-| BASE_DOCKER_IMAGE |  <tag> of image| jupyterlab:1.0
+| DATABASE_HOST |  ```<ip>``` of mysql database| localhost 
+| DATABASE_USER | ```<username>``` of mysql database| root
+| DATABASE_PASSWORD |  ```<password>``` of mysql database| super2009
+| DATABASE_PORT | ```<port>``` of database| 3306
+| DATABASE_NAME | ```<name>``` of database| containers
+| BASE_DOCKER_IMAGE |  ```<tag>``` of image| jupyterlab:1.0
 | DATASET_URI  | root folder of your dataset | /mnt/dataset 
 | TEMP_URI  | tmp folder of your experiment | /mnt/exp
 | SHARED_GPU | Shared memory by GPU | 4
