@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+	  <title>ISSD Workspaces</title>
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="sidebar">
+        <h2>ISSD</h2>
+        <h4> <%=username%> </h4>
+        <ul>
+          <li><a href="sysInfo">System Information</a></li>
+          <li><a>Workspaces</a></li>
+          <% if (admin) { %>
+            <li><a href="editUsers">Edit users</a></li>
+          <% } %>
+          <li name="signout"><a href="signout">Sign Out</a></li>
+        </ul>
+      </div>
+      <div class="main_content">
+        <div class="header">
+          Workspaces
+        </div>
+        <div class="workspaces">
+          <div class="newWorkspace">
+            <form action="generateContainer" method="POST">
+              <legend name="formTitle1"> Create new workspace </legend>
+              <input type="text" name="workspaceName1" placeholder="Workspace Name" required>
+              <select name="GPU_CPU" id="GPU_CPU">
+                <option value="GPU">GPU</option>
+                <option value="CPU">CPU</option>
+              </select>
+              <textarea name="workspaceDescription" placeholder="Workspace Description" required></textarea>
+              <input type="submit" value="Create">
+            </form>
+            <% if (!contGenerated) { %>
+                <p style="color: red;">*Container name already taken</p>
+            <% } %>
+            <% if (admin) { %>
+              <form name="deleteWorkspace" action="deleteWorkspace" method="POST">
+                <legend name="formTitle3"> Delete workspace </legend>
+                <input type="text" name="workspaceName" placeholder="Workspace Name" required>
+                <input type="submit" value="Delete">
+              </form>
+            <% } %>
+          </div>
+          <div class="selectWorkspace">
+              <header name="formTitle2">
+                Select workspace
+                <button class="btn" onclick="location.href='/refresh'"><i class="fa fa-refresh"></i></button>
+              </header>
+              <% for (var i = 0; i < workspaces["names"].length; i++) { %>
+                <% if (workspaces["running"][i]) { %>
+                  <button class="workspace" onclick=<%="window.open(\'http://" + ip + ":" + String(workspaces["http_ports"][i]) + "\')"%> >
+                    <b> <big><%= workspaces["names"][i]%></big> </b> <br />
+                    <%=workspaces["descriptions"][i]%> <br />
+                    <small><%="Created by: " + workspaces["creators"][i]%></small> |
+                    <small><%="http port: " + workspaces["http_ports"][i]%></small> |
+                    <small><%="ssh port: " + workspaces["ssh_ports"][i]%></small>
+                  </button>
+                <% } %>
+                <% if (!(workspaces["running"][i])) { %>
+                  <button class="workspaceRed">
+                    <b> <big><%= workspaces["names"][i]%></big> </b> <br />
+                    <%=workspaces["descriptions"][i]%> <br />
+                    <small><%="Created by: " + workspaces["creators"][i]%></small>
+                  </button>
+                <% } %>
+              <% } %>
+              <form name="stWorkspace" action="stWorkspace" method="POST">
+                <legend name="formTitle3"> Stop/Start workspace </legend>
+                <input type="text" name="workspaceName" placeholder="Workspace Name" required>
+                <input type="submit" name="stop" value="Stop/Start">
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,393 @@
+@import url(http://fonts.googleapis.com/css?family=Ubuntu);
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Ubuntu";
+}
+
+body{
+  background-color: #f3f5f9;
+}
+
+.signin-form {
+  width: 300px;
+  margin: 0 auto;
+  font-family: "Ubuntu";
+}
+.signin-form h1 {
+  text-align: center;
+  color: #000000;
+  font-size: 24px;
+  font-weight: lighter;
+  padding: 20px 0 20px 0;
+  font-family: "Ubuntu";
+}
+.signin-form h3 {
+  text-align: center;
+  font-weight: lighter;
+  padding: 10px 0 10px 0;
+  font-family: "Ubuntu";
+}
+.signin-form input[type="password"],
+.signin-form input[type="text"] {
+  width: 100%;
+  font-size: 16px;
+  padding: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  box-sizing:border-box;
+  font-family: "Ubuntu";
+  outline: none;
+}
+.signin-form input[type="submit"] {
+  width: 100%;
+  font-size: 16px;
+  padding: 16px;
+  border-radius: 5px;
+  background-color: #323232;
+  border: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: "Ubuntu";
+}
+
+.wrapper{
+  display: flex;
+  position: relative;
+}
+
+.wrapper .sidebar{
+  width: 200px;
+  height: 100%;
+  background: #323232;
+  padding: 30px 0px;
+  position: fixed;
+}
+.wrapper .sidebar h2{
+  color: #fff;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 0px;
+}
+.wrapper .sidebar h4{
+  color: #fff;
+  font-weight: lighter;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.wrapper .sidebar ul li{
+  padding: 15px;
+  border-bottom: 1px solid #cec9e8;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.wrapper .sidebar ul li a{
+  color: #ffffff;
+  display: block;
+}
+.wrapper .sidebar ul li a .fas{
+  width: 25px;
+}
+.wrapper .sidebar ul li:hover{
+  background-color: #464646;
+}
+.wrapper .sidebar ul li:active{
+  background-color: #505050;
+}
+.wrapper .sidebar ul li:hover a{
+  color: #fff;
+}
+.wrapper .sidebar ul li[name="signout"]{
+  padding: 15px;
+  background: #8b0000;
+}
+.wrapper .sidebar ul li a{
+  color: #ffffff;
+  display: block;
+}
+.wrapper .sidebar ul li[name="signout"] a .fas{
+  width: 25px;
+}
+.wrapper .sidebar ul li[name="signout"]:hover{
+  background: #9f1414;
+}
+.wrapper .sidebar ul li[name="signout"]:active{
+  background-color: #b32828;
+}
+.wrapper .sidebar ul li[name="signout"]:hover a{
+  color: #fff;
+}
+
+.wrapper .main_content{
+  width: 100%;
+  margin-left: 200px;
+}
+.wrapper .main_content .header{
+  padding: 20px;
+  background: #fff;
+  color: #717171;
+  border-bottom: 1px solid #e0e4e8;
+}
+
+.wrapper .main_content .info{
+  color: #717171;
+  width: 100%;
+  height: 500%;
+}
+.wrapper .main_content .info iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.wrapper .main_content .workspaces{
+  color: #717171;
+  line-height: 25px;
+  height: 116%;
+}
+.wrapper .main_content .workspaces div{
+  margin-bottom: 0px;
+}
+
+.wrapper .main_content .workspaces form[name="deleteWorkspace"],
+.wrapper .main_content .workspaces form[name="stWorkspace"] {
+  width: 100%;
+  height: 100%;
+  margin-top: 2%;
+  float: left;
+}
+
+.wrapper .main_content .workspaces label{
+  margin-top: 10%;
+  font-size: 10px;
+  text-align: center;
+}
+.wrapper .main_content .workspaces legend[name="formTitle1"],
+.wrapper .main_content .workspaces header[name="formTitle2"],
+.wrapper .main_content .workspaces legend[name="formTitle3"] {
+  margin-top: 5%;
+  margin-bottom: 4%;
+  font-size: 16px;
+  font-weight: normal;
+  width: 100%;
+}
+.wrapper .main_content .workspaces input[name="workspaceName1"] {
+  position: inherit;
+  font-size: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  color: #000000;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  width: 75%;
+  margin-left: 0%;
+  margin-top: 1%;
+  padding: 10px;
+  outline:none;
+}
+.wrapper .main_content .workspaces input[name="workspaceName"] {
+  position: inherit;
+  font-size: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  color: #000000;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  width: 90%;
+  margin-left: 0%;
+  margin-top: 1%;
+  padding: 10px;
+  outline:none;
+}
+.wrapper .main_content .workspaces select[name="GPU_CPU"] {
+  outline: none;
+  border: 1px solid #dddddd;
+  background-color: #FFFFFF;
+  font-size: 16px;
+  color: #717171;
+  margin: 1%;
+}
+.wrapper .main_content .workspaces textarea[name="workspaceDescription"] {
+  position: inherit;
+  font-size: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  color: #000000;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  width: 90%;
+  height: 200px;
+  margin-left: 0%;
+  margin-top: 1%;
+  padding: 10px 10px;
+  resize:none;
+  outline: none;
+}
+.wrapper .main_content .workspaces button[class="workspace"]{
+  position: inherit;
+  font-size: 15px;
+  background: #323232;
+  border: 0px;
+  border-radius: 5px;
+  color: #FFFFFF;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  cursor: pointer;
+  width: 90%;
+  height: auto;
+  margin-top: 1%;
+  padding: 10px 0;
+  outline:none;
+}
+.wrapper .main_content .workspaces input[type="submit"] {
+  position: inherit;
+  font-size: 16px;
+  background: #323232;
+  border: 0px;
+  border-radius: 5px;
+  color: #FFFFFF;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  cursor: pointer;
+  width: 90%;
+  margin-top: 1%;
+  padding: 10px 0;
+  outline:none;
+}
+.wrapper .main_content .workspaces input[type="submit"]:hover,
+.wrapper .main_content .workspaces button[class="workspace"]:hover {
+  background: #464646;
+}
+.wrapper .main_content .workspaces input[type="submit"]:active,
+.wrapper .main_content .workspaces button[class="workspace"]:active {
+  background: #505050;
+}
+.wrapper .main_content .workspaces button[class="workspaceRed"]{
+  position: inherit;
+  font-size: 15px;
+  background: #8b0000;
+  border: 0px;
+  border-radius: 5px;
+  color: #FFFFFF;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  cursor: pointer;
+  width: 90%;
+  height: auto;
+  margin-top: 1%;
+  padding: 10px 0;
+  outline:none;
+}
+
+.wrapper .main_content .workspaces .newWorkspace{
+  width: 45%;
+  height: 100%;
+  border-top: 1px solid #f3f5f9;
+  border-right: 1px solid #e0e4e8;
+  margin: 5%;
+  margin-top: 0;
+  margin-right: 0;
+  float: left;
+}
+.wrapper .main_content .workspaces .newWorkspace div{
+  border-right: 1px solid #e0e4e8;
+}
+.wrapper .main_content .workspaces .selectWorkspace{
+  width: 45%;
+  height: 100%;
+  border-top: 1px solid #f3f5f9;
+  margin: 5%;
+  margin-top: 0;
+  margin-right: 0;
+  float: left;
+}
+.wrapper .main_content .workspaces .selectWorkspace div{
+  border-right: 1px solid #e0e4e8;
+}
+
+.wrapper .main_content .users{
+  color: #717171;
+  line-height: 25px;
+  height: 173%;
+}
+.wrapper .main_content .users div{
+  margin-bottom: 0px;
+}
+
+.wrapper .main_content .users input[name="username"],
+.wrapper .main_content .users input[name="password"] {
+  position: inherit;
+  font-size: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  color: #000000;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  width: 90%;
+  margin-left: 0%;
+  margin-top: 1%;
+  padding: 10px;
+  outline:none;
+}
+
+.wrapper .main_content .users input[type="submit"] {
+  position: inherit;
+  font-size: 16px;
+  background: #323232;
+  border: 0px;
+  border-radius: 5px;
+  color: #FFFFFF;
+  font-family: "Ubuntu";
+  font-weight: normal;
+  cursor: pointer;
+  width: 90%;
+  margin-top: 1%;
+  padding: 10px 0;
+  outline:none;
+}
+.wrapper .main_content .users input[type="submit"]:hover {
+  background: #464646;
+}
+.wrapper .main_content .users input[type="submit"]:active {
+  background: #505050;
+}
+
+.wrapper .main_content .users legend[name="formTitle"] {
+  margin-top: 5%;
+  margin-bottom: 4%;
+  font-size: 16px;
+  font-weight: normal;
+  width: 100%;
+}
+
+.wrapper .main_content .users .newUser{
+  width: 45%;
+  height: 100%;
+  border-top: 1px solid #f3f5f9;
+  border-right: 1px solid #e0e4e8;
+  margin: 5%;
+  margin-top: 0;
+  margin-right: 0;
+  float: left;
+}
+.wrapper .main_content .users .newUser div{
+  border-right: 1px solid #e0e4e8;
+}
+.wrapper .main_content .users .deleteUser{
+  width: 45%;
+  height: 100%;
+  border-top: 1px solid #f3f5f9;
+  margin: 5%;
+  margin-top: 0;
+  margin-right: 0;
+  float: left;
+}
+.wrapper .main_content .users .deleteUser div{
+  border-right: 1px solid #e0e4e8;
+}

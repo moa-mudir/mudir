@@ -1,0 +1,2 @@
+const APP_VERSION = "1.0.2";
+exports.APP_VERSION = APP_VERSION;
