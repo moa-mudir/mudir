@@ -1,5 +1,7 @@
 # Mudir
-## _Your laboratory's GPU workspace cluster manager tool_
+## _Your Machine Learning laboratory's workspace management tool_
+
+<img src="https://github.com/moa-mudir/mudir/blob/main/assets/Logo3.png" width="400" height="400">
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -10,13 +12,12 @@
 
 _Mudir_ is a GPU workspace management tool, user-friendly, to protect your teams' research
 
-<img src="https://github.com/moa-mudir/mudir/blob/main/assets/Logo3.png" width="400" height="400">
 
 ## Features
-
-- Works with a cluster of GPU Servers
-- Two clicks to run your personal workspace
+- You can use it with GPUs/CPUs servers
+- Allows virtualization at low cost
 - Jupyter environment support
+- Two clicks to run your personal workspace
 - A safe setup for experiments and datasets
 
 ## System requirements
@@ -27,7 +28,7 @@ _Mudir_ is a GPU workspace management tool, user-friendly, to protect your teams
 - Docker runtime 19.03.12
 - nodejs 12.20.1
 - ** Optional FTP server
-- ** docker-compose 1.29.0
+- ** Optional docker-compose 1.29.0
 
 ## Setup 
 - Clone this repo
