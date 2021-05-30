@@ -11,12 +11,12 @@
         <h2>ISSD</h2>
         <h4> <%=username%> </h4>
         <ul>
-          <li><a href="sysInfo">System Information</a></li>
+          <li><a href="/sysInfo">System Information</a></li>
           <li><a>Workspaces</a></li>
           <% if (admin) { %>
-            <li><a href="editUsers">Edit users</a></li>
+            <li><a href="/editUsers">Edit users</a></li>
           <% } %>
-          <li name="signout"><a href="signout">Sign Out</a></li>
+          <li name="signout"><a href="/signout">Sign Out</a></li>
         </ul>
       </div>
       <div class="main_content">
@@ -25,10 +25,10 @@
         </div>
         <div class="workspaces">
           <div class="newWorkspace">
-            <form action="generateContainer" method="POST">
+            <form action="/generateContainer" method="POST">
               <legend name="formTitle1"> Create new workspace </legend>
               <input type="text" name="workspaceName1" placeholder="Workspace Name" required>
-              <select name="GPU_CPU" id="GPU_CPU">
+              <select name="GPU_CPU" id="SELECT">
                 <option value="GPU">GPU</option>
                 <option value="CPU">CPU</option>
               </select>
@@ -39,7 +39,7 @@
                 <p style="color: red;">*Container name already taken</p>
             <% } %>
             <% if (admin) { %>
-              <form name="deleteWorkspace" action="deleteWorkspace" method="POST">
+              <form name="deleteWorkspace" action="/deleteWorkspace" method="POST">
                 <legend name="formTitle3"> Delete workspace </legend>
                 <input type="text" name="workspaceName" placeholder="Workspace Name" required>
                 <input type="submit" value="Delete">
@@ -49,27 +49,37 @@
           <div class="selectWorkspace">
               <header name="formTitle2">
                 Select workspace
-                <button class="btn" onclick="location.href='/refresh'"><i class="fa fa-refresh"></i></button>
+                <form action="/changeGPU" method="POST">
+                <select name="GPU_SELECT" id="SELECT" onchange="this.form.submit()">
+                  <% if (GPUs) { %>
+                    <% for (var i = 0; i < GPUs.length; i++) { %>
+                      <option value=<%=GPUs[i]%>><%=GPUs[i]%></option>
+                    <% } %>
+                  <% } %>
+                </select>
+                </form>
               </header>
               <% for (var i = 0; i < workspaces["names"].length; i++) { %>
-                <% if (workspaces["running"][i]) { %>
+                <% if (workspaces["running"][i] && workspaces["gpu_address"][i] == ip) { %>
                   <button class="workspace" onclick=<%="window.open(\'http://" + ip + ":" + String(workspaces["http_ports"][i]) + "\')"%> >
                     <b> <big><%= workspaces["names"][i]%></big> </b> <br />
                     <%=workspaces["descriptions"][i]%> <br />
                     <small><%="Created by: " + workspaces["creators"][i]%></small> |
+                    <small><%="GPU: " + workspaces["gpu_address"][i]%></small> |
                     <small><%="http port: " + workspaces["http_ports"][i]%></small> |
                     <small><%="ssh port: " + workspaces["ssh_ports"][i]%></small>
                   </button>
                 <% } %>
-                <% if (!(workspaces["running"][i])) { %>
+                <% if (!(workspaces["running"][i]) && workspaces["gpu_address"][i] == ip) { %>
                   <button class="workspaceRed">
                     <b> <big><%= workspaces["names"][i]%></big> </b> <br />
                     <%=workspaces["descriptions"][i]%> <br />
-                    <small><%="Created by: " + workspaces["creators"][i]%></small>
+                    <small><%="Created by: " + workspaces["creators"][i]%></small> |
+                    <small><%="GPU: " + workspaces["gpu_address"][i]%></small>
                   </button>
                 <% } %>
               <% } %>
-              <form name="stWorkspace" action="stWorkspace" method="POST">
+              <form name="stWorkspace" action="/stWorkspace" method="POST">
                 <legend name="formTitle3"> Stop/Start workspace </legend>
                 <input type="text" name="workspaceName" placeholder="Workspace Name" required>
                 <input type="submit" name="stop" value="Stop/Start">
