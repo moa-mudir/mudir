@@ -49,19 +49,28 @@ module.exports = {
     },
     containersJSON: function(callback) {
         rows = model.getAllContainers(function(rows) {
-            var containers = { "names": [], "http_ports": [], "ssh_ports": [], "descriptions": [], "creators": [], "running": [] };
+            var containers = { "names": [], "http_ports": [], "ssh_ports": [], "descriptions": [], "creators": [], "gpu_address": [], "running": [] };
             for (var row of rows) {
                 containers.names.push(row.name);
                 containers.http_ports.push(row.http_port);
                 containers.ssh_ports.push(row.ssh_port);
                 containers.descriptions.push(row.description);
                 containers.creators.push(row.creator);
+                containers.gpu_address.push(row.gpu_address);
+                containers.running.push(row.on_off);
                 try {
                     portInUse = cmd("ss -tulpn | grep :" + String(row.http_port)).toString();
                 } catch (ex) {
                     portInUse = "";
                 }
-                containers.running.push(portInUse != "");
+                if (row.on_off && portInUse == "") {
+                    commandName = editName(row.name);
+                    cmd("docker start " + commandName);
+                }
+                else if (!(row.on_off) && portInUse != "") {
+                    commandName = editName(row.name);
+                    cmd("docker stop " + commandName);
+                }
             }
             return callback(containers);
         });
@@ -95,7 +104,7 @@ module.exports = {
     createUser: function(username, password) {
         model.getUser(username, function(user) {
             if (!user) {
-                model.createUser(username, password);
+                model.addUser(username, password);
             }
         });
     },
@@ -124,7 +133,8 @@ module.exports = {
             containerName: params.containerName,
             containerDes: params.containerDes,
             username: params.username,
-            gpu_address: params.gpu_address
+            gpu_address: params.gpu_address,
+            on_off: 1
         });
         return true;
     },
@@ -138,7 +148,7 @@ module.exports = {
             }
         });
     },
-    stContainer: function(containerName) {
+    stContainer: function(containerName, gpu) {
         commandName = editName(containerName);
         model.getContainer(containerName, function(query) {
             if (query) {
@@ -147,10 +157,12 @@ module.exports = {
                 } catch (ex) {
                     portInUse = "";
                 }
-                if (portInUse) {
+                if (!(query.on_off) && portInUse) {
                     cmd("docker stop " + commandName);
-                } else {
+                    model.setContainerOff(containerName, gpu);
+                } else if (query.on_off && portInUse == "") {
                     cmd("docker start " + commandName);
+                    model.setContainerOn(containerName, gpu)
                 }
             }
         });

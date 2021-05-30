@@ -205,7 +205,7 @@ body{
   padding: 10px;
   outline:none;
 }
-.wrapper .main_content .workspaces select[name="GPU_CPU"] {
+.wrapper .main_content .workspaces select[id="SELECT"] {
   outline: none;
   border: 1px solid #dddddd;
   background-color: #FFFFFF;

@@ -11,17 +11,17 @@ var __const = require("./constants");
 var app = express();
 controller.createdb();
 
-app.use(session({
-    secret: "SIGNINpageSECRET",
-    resave: true,
-    saveUninitialized: true
-}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + "/public"));
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 
+app.use(session({
+    secret: "SIGNINpageSECRET",
+    resave: true,
+    saveUninitialized: true
+}));
 
 app.get('/', function(req, res) {
     if (req.session.loggedin) {
@@ -51,8 +51,25 @@ app.get("/editUsers", function(req, res) {
 
 app.get('/workspaces', function(req, res) {
     if (req.session.loggedin) {
+        res.redirect("/workspaces/" + req.session.currGPU);
+    } else {
+        res.redirect("/");
+    }
+});
+
+app.post("/changeGPU", function(req, res) {
+    req.session.currGPU = req.body.GPU_SELECT;
+    req.session.GPUs.splice(req.session.GPUs.indexOf(req.session.currGPU), 1);
+    req.session.GPUs.unshift(req.session.currGPU);
+    res.redirect("/workspaces/" + req.session.currGPU);
+});
+
+app.get('/workspaces/:currGPU', function(req, res) {
+    if (req.session.loggedin) {
         controller.containersJSON(function(wsInfo) {
-            res.render("workspaces", { workspaces: wsInfo, admin: req.session.adminLoggedIn, username: req.session.username, ip: ip.address(), contGenerated: req.session.contGenerated });
+            res.render("workspaces", { workspaces: wsInfo, admin: req.session.adminLoggedIn,
+                                       username: req.session.username, ip: req.session.currGPU,
+                                       GPUs: req.session.GPUs, contGenerated: req.session.contGenerated });
         });
     } else {
         res.redirect("/");
@@ -65,6 +82,15 @@ app.get('/signout', function(req, res) {
 });
 
 app.post("/auth", function(req, res) {
+    controller.containersJSON(function(wsInfo) {
+        req.session.GPUs = wsInfo["gpu_address"].filter((x, i) => i === wsInfo["gpu_address"].indexOf(x));
+        if (req.session.GPUs) {
+            req.session.currGPU = req.session.GPUs[0];
+        }
+        else {
+            req.session.currGPU = ip.address();
+        }
+    });
     req.session.username = req.body.username;
     var password = req.body.password;
     controller.auth(req.session.username, password, function(loggedin) {
@@ -104,18 +130,18 @@ app.post("/generateContainer", function(req, res) {
         username: req.session.username,
         gpu_address: ip.address()
     });
-    res.redirect("/workspaces");
+    res.redirect("/workspaces/" + req.session.currGPU);
 });
 
 app.post("/deleteWorkspace", function(req, res) {
     var containerToDelete = req.body.workspaceName;
     controller.deleteContainer(containerToDelete);
-    res.redirect("/workspaces");
+    res.redirect("/workspaces/" + req.session.currGPU);
 });
 
 app.post("/stWorkspace", function(req, res) {
     var containerToSt = req.body.workspaceName;
-    controller.stContainer(containerToSt);
-    res.redirect("/workspaces");
+    controller.stContainer(containerToSt, req.session.currGPU);
+    res.redirect("/workspaces/" + req.session.currGPU);
 });
 app.listen(3000);
