@@ -82,4 +82,7 @@ of experiment. Though allowing you to mount it over FTP and have persistent prot
 ![Jupyter environment](https://github.com/moa-mudir/mudir/blob/main/assets/ws5.png)
   
 ## Contributing
-- TBA
+- Use [Commit standard](https://www.conventionalcommits.org/en/v1.0.0/)
+- When you work on issue, branch out a branch name as follows:
+  - feature/MUD-XX-description
+  - bugfix/MUD-XX-description 
