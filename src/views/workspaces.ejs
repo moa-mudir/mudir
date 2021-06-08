@@ -60,7 +60,7 @@
                 </form>
               </header>
               <% for (var i = 0; i < workspaces["names"].length; i++) { %>
-                <% if (workspaces["running"][i] && workspaces["gpu_address"][i] == ip) { %>
+                <% if (workspaces["isOnline"][i] && workspaces["gpu_address"][i] == ip) { %>
                   <button class="workspace" onclick=<%="window.open(\'http://" + ip + ":" + String(workspaces["http_ports"][i]) + "\')"%> >
                     <b> <big><%= workspaces["names"][i]%></big> </b> <br />
                     <%=workspaces["descriptions"][i]%> <br />
@@ -70,7 +70,7 @@
                     <small><%="ssh port: " + workspaces["ssh_ports"][i]%></small>
                   </button>
                 <% } %>
-                <% if (!(workspaces["running"][i]) && workspaces["gpu_address"][i] == ip) { %>
+                <% if (!(workspaces["isOnline"][i]) && workspaces["gpu_address"][i] == ip) { %>
                   <button class="workspaceRed">
                     <b> <big><%= workspaces["names"][i]%></big> </b> <br />
                     <%=workspaces["descriptions"][i]%> <br />
