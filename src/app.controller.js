@@ -49,7 +49,7 @@ module.exports = {
     },
     containersJSON: function(callback) {
         rows = model.getAllContainers(function(rows) {
-            var containers = { "names": [], "http_ports": [], "ssh_ports": [], "descriptions": [], "creators": [], "gpu_address": [], "running": [] };
+            var containers = { "names": [], "http_ports": [], "ssh_ports": [], "descriptions": [], "creators": [], "gpu_address": [], "isOnline": [] };
             for (var row of rows) {
                 containers.names.push(row.name);
                 containers.http_ports.push(row.http_port);
@@ -57,17 +57,17 @@ module.exports = {
                 containers.descriptions.push(row.description);
                 containers.creators.push(row.creator);
                 containers.gpu_address.push(row.gpu_address);
-                containers.running.push(row.on_off);
+                containers.isOnline.push(row.isOnline);
                 try {
                     portInUse = cmd("ss -tulpn | grep :" + String(row.http_port)).toString();
                 } catch (ex) {
                     portInUse = "";
                 }
-                if (row.on_off && portInUse == "") {
+                if (row.isOnline && portInUse == "") {
                     commandName = editName(row.name);
                     cmd("docker start " + commandName);
                 }
-                else if (!(row.on_off) && portInUse != "") {
+                else if (!(row.isOnline) && portInUse != "") {
                     commandName = editName(row.name);
                     cmd("docker stop " + commandName);
                 }
@@ -134,7 +134,7 @@ module.exports = {
             containerDes: params.containerDes,
             username: params.username,
             gpu_address: params.gpu_address,
-            on_off: 1
+            isOnline: 1
         });
         return true;
     },
@@ -157,10 +157,10 @@ module.exports = {
                 } catch (ex) {
                     portInUse = "";
                 }
-                if (!(query.on_off) && portInUse) {
+                if (!(query.isOnline) && portInUse) {
                     cmd("docker stop " + commandName);
                     model.setContainerOff(containerName, gpu);
-                } else if (query.on_off && portInUse == "") {
+                } else if (query.isOnline && portInUse == "") {
                     cmd("docker start " + commandName);
                     model.setContainerOn(containerName, gpu)
                 }
