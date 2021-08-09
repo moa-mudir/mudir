@@ -26,14 +26,22 @@ _Mudir_ is a GPU workspace management tool, user-friendly, to protect your teams
 - [MySQL 8.0.24](https://dev.mysql.com/downloads/mysql/5.7.html) server
 - NVIDIA GPU with installed [CUDA drivers >= 10.x](https://developer.nvidia.com/cuda-10.2-download-archive)
 - Docker runtime 19.03.12
+- [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
 - nodejs 12.20.1
 - ** Optional FTP server
 - ** Optional docker-compose 1.29.0
 
 ## Setup 
-- Clone this repo
-- ```docker build -t <your-build-tag> .```
-- ```cp default.env .env```
+
+```
+ git clone git@github.com:moa-mudir/mudir.git
+ cd mudir
+ docker build -t <your-build-tag> .
+ npm install
+ cp default.env .env
+ 
+ ```
+ 
 - modify .env according to your preferences, you can change the host, password and image name you've just tagged
 to start
 
