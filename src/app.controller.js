@@ -58,19 +58,6 @@ module.exports = {
                 containers.creators.push(row.creator);
                 containers.gpu_address.push(row.gpu_address);
                 containers.isOnline.push(row.isOnline);
-                try {
-                    portInUse = cmd("ss -tulpn | grep :" + String(row.http_port)).toString();
-                } catch (ex) {
-                    portInUse = "";
-                }
-                if (row.isOnline && portInUse == "") {
-                    commandName = editName(row.name);
-                    cmd("docker start " + commandName);
-                }
-                else if (!(row.isOnline) && portInUse != "") {
-                    commandName = editName(row.name);
-                    cmd("docker stop " + commandName);
-                }
             }
             return callback(containers);
         });
@@ -150,19 +137,17 @@ module.exports = {
     },
     stContainer: function(containerName, gpu) {
         commandName = editName(containerName);
-        model.getContainer(containerName, function(query) {
+        model.getContainer(containerName, gpu, function(query) {
             if (query) {
-                try {
-                    portInUse = cmd("ss -tulpn | grep :" + String(query.http_port)).toString();
-                } catch (ex) {
-                    portInUse = "";
-                }
-                if (!(query.isOnline) && portInUse) {
+                console.log(query);
+                if (query.isOnline) {
                     cmd("docker stop " + commandName);
                     model.setContainerOff(containerName, gpu);
-                } else if (query.isOnline && portInUse == "") {
+                    console.log("docker stop " + commandName);
+                } else {
                     cmd("docker start " + commandName);
-                    model.setContainerOn(containerName, gpu)
+                    model.setContainerOn(containerName, gpu);
+                    console.log("docker start " + commandName);
                 }
             }
         });

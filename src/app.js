@@ -51,6 +51,7 @@ app.get("/editUsers", function(req, res) {
 
 app.get('/workspaces', function(req, res) {
     if (req.session.loggedin) {
+        console.log(req.session.currGPU);
         res.redirect("/workspaces/" + req.session.currGPU);
     } else {
         res.redirect("/");
@@ -82,15 +83,11 @@ app.get('/signout', function(req, res) {
 });
 
 app.post("/auth", function(req, res) {
+    req.session.currGPU = String(ip.address());
     controller.containersJSON(function(wsInfo) {
         req.session.GPUs = wsInfo["gpu_address"].filter((x, i) => i === wsInfo["gpu_address"].indexOf(x));
-        if (req.session.GPUs) {
-            req.session.currGPU = req.session.GPUs[0];
-        }
-        else {
-            req.session.currGPU = ip.address();
-        }
     });
+    console.log(req.session.currGPU);
     req.session.username = req.body.username;
     var password = req.body.password;
     controller.auth(req.session.username, password, function(loggedin) {
@@ -141,7 +138,7 @@ app.post("/deleteWorkspace", function(req, res) {
 
 app.post("/stWorkspace", function(req, res) {
     var containerToSt = req.body.workspaceName;
-    controller.stContainer(containerToSt, req.session.currGPU);
+    controller.stContainer(containerToSt, String(ip.address()));
     res.redirect("/workspaces/" + req.session.currGPU);
 });
 app.listen(3000);

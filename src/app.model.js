@@ -27,7 +27,7 @@ module.exports = {
                         });
                     conn.query('INSERT INTO users (username, password, admin) ' +
                         'SELECT * from (SELECT "admin" AS username, "admin" AS password, 1) as tmp ' +
-                        'WHERE NOT EXISTS (SELECT username FROM users WHERE (username = "admin" and admin=1))',
+                        'WHERE NOT EXISTS (SELECT username FROM users WHERE (username="admin" and admin=1))',
                         function(err, results, fields) {
                             if (err) throw err;
                         });
@@ -129,7 +129,7 @@ module.exports = {
         })
     },
 
-    getContainerPorts: function(port, callback) {
+    getContainerPorts: function(port, gpu, callback) {
         var conn = mysql.createConnection(config);
         var data1;
         var data2;
@@ -137,12 +137,12 @@ module.exports = {
             if (err) {
                 throw err;
             } else {
-                conn.query("SELECT ssh_port FROM containers_info WHERE ssh_port =" + String(port),
+                conn.query("SELECT ssh_port FROM containers_info WHERE ssh_port=" + String(port) + "AND gpu_address=\'" + String(gpu) + "\'",
                     function(err, results, fields) {
                         if (err) throw err;
                         else data1 = results;
                     })
-                conn.query("SELECT http_port FROM containers_info WHERE http_port =" + String(port),
+                conn.query("SELECT http_port FROM containers_info WHERE http_port=" + String(port) + "AND gpu_address=\'" + String(gpu) + "\'",
                     function(err, results, fields) {
                         if (err) throw err;
                         else data2 = results;
@@ -154,13 +154,13 @@ module.exports = {
             return callback({ ssh: data1, http: data2 });
         });
     },
-    getContainer: function(containerName, callback) {
+    getContainer: function(containerName, gpu, callback) {
         var conn = mysql.createConnection(config);
         conn.connect(function(err) {
             if (err) {
                 throw err;
             } else {
-                conn.query("SELECT * FROM containers_info WHERE name=\'" + String(containerName) + "\'",
+                conn.query("SELECT * FROM containers_info WHERE name=\'" + String(containerName) + "\' AND gpu_address=\'" + String(gpu) + "\'",
                     function(err, results, fields) {
                         if (err) throw err;
                         return callback(results[0]);
@@ -177,7 +177,7 @@ module.exports = {
           if (err) {
               throw err;
           } else {
-              conn.query("UPDATE containers_info SET isOnline = 0 WHERE name = \'" + containerName + "\' AND gpu_address = \'" + gpu + "/'",
+              conn.query("UPDATE containers_info SET isOnline=0 WHERE name=? AND gpu_address=?", [containerName, gpu],
                   function(err, results, fields) {
                       if (err) throw err;
                   })
@@ -193,7 +193,7 @@ module.exports = {
           if (err) {
               throw err;
           } else {
-              conn.query("UPDATE containers_info SET isOnline = 1 WHERE name = \'" + containerName + "\' AND gpu_address = \'" + gpu + "/'",
+              conn.query("UPDATE containers_info SET isOnline=1 WHERE name=? AND gpu_address=?", [containerName, gpu],
                   function(err, results, fields) {
                       if (err) throw err;
                   })
