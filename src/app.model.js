@@ -31,7 +31,7 @@ module.exports = {
                         function(err, results, fields) {
                             if (err) throw err;
                         });
-                    conn.query('CREATE TABLE IF NOT EXISTS containers_info(http_port INTEGER, ssh_port INTEGER, name TEXT, description TEXT, creator TEXT, gpu_address VARCHAR(15), PRIMARY KEY (http_port, gpu_address))',
+                    conn.query('CREATE TABLE IF NOT EXISTS containers_info(http_port INTEGER, ssh_port INTEGER, name TEXT, description TEXT, creator TEXT, gpu_address VARCHAR(15), isOnline INTEGER, PRIMARY KEY (http_port, gpu_address))',
                         function(err, results, fields) {
                             if (err) throw err;
                         });
@@ -80,6 +80,21 @@ module.exports = {
             });
         });
     },
+    addUser: function(username, password, callback) {
+        var conn = mysql.createConnection(config);
+        conn.connect(function(err) {
+            if (err) {
+                throw err;
+            }
+            conn.query('INSERT INTO users (username, password, admin) VALUES(?, ?, ?)', [username, password, 0],
+                function(err, results, fields) {
+                    if (err) throw err;
+                });
+            conn.end(function(err) {
+                if (err) throw err;
+            });
+        });
+    },
     deleteUser: function(username) {
         var conn = mysql.createConnection(config);
         conn.connect(function(err) {
@@ -102,7 +117,8 @@ module.exports = {
             if (err) {
                 throw err;
             } else {
-                conn.query("INSERT INTO containers_info(http_port, ssh_port, name, description, creator, gpu_address) VALUES(?, ?, ?, ?, ?, ?)", [params["http_port"], params["ssh_port"], params["containerName"], params["containerDes"], params["username"], params["gpu_address"]],
+                conn.query("INSERT INTO containers_info(http_port, ssh_port, name, description, creator, gpu_address, isOnline) VALUES(?, ?, ?, ?, ?, ?, ?)",
+                            [params["http_port"], params["ssh_port"], params["containerName"], params["containerDes"], params["username"], params["gpu_address"], params["isOnline"]],
                     function(err, results, fields) {
                         if (err) throw err;
                     })
@@ -154,6 +170,38 @@ module.exports = {
                 });
             }
         });
+    },
+    setContainerOff: function(containerName, gpu, callback) {
+      var conn = mysql.createConnection(config);
+      conn.connect(function(err) {
+          if (err) {
+              throw err;
+          } else {
+              conn.query("UPDATE containers_info SET isOnline = 0 WHERE name = \'" + containerName + "\' AND gpu_address = \'" + gpu + "/'",
+                  function(err, results, fields) {
+                      if (err) throw err;
+                  })
+              conn.end(function(err) {
+                  if (err) throw err;
+              });
+          }
+      });
+    },
+    setContainerOn: function(containerName, gpu, callback) {
+      var conn = mysql.createConnection(config);
+      conn.connect(function(err) {
+          if (err) {
+              throw err;
+          } else {
+              conn.query("UPDATE containers_info SET isOnline = 1 WHERE name = \'" + containerName + "\' AND gpu_address = \'" + gpu + "/'",
+                  function(err, results, fields) {
+                      if (err) throw err;
+                  })
+              conn.end(function(err) {
+                  if (err) throw err;
+              });
+          }
+      });
     },
     deleteContainer: function(containerName) {
         var conn = mysql.createConnection(config);
