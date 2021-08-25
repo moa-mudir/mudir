@@ -135,11 +135,10 @@ module.exports = {
             }
         });
     },
-    stContainer: function(containerName, gpu) {
+    stContainer: function(containerName, gpu, callback) {
         commandName = editName(containerName);
         model.getContainer(containerName, gpu, function(query) {
             if (query) {
-                console.log(query);
                 if (query.isOnline) {
                     cmd("docker stop " + commandName);
                     model.setContainerOff(containerName, gpu);
@@ -150,6 +149,7 @@ module.exports = {
                     console.log("docker start " + commandName);
                 }
             }
+            return callback("Done");
         });
     }
 };
