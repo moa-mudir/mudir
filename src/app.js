@@ -137,8 +137,9 @@ app.post("/generateContainer", function(req, res) {
 
 app.post("/deleteWorkspace", function(req, res) {
     var containerToDelete = req.body.workspaceName;
-    controller.deleteContainer(containerToDelete);
-    res.redirect("/workspaces/" + req.session.currGPU);
+    controller.deleteContainer(containerToDelete, ip.address(), function(done) {
+        res.redirect("/workspaces/" + req.session.currGPU);
+    });
 });
 
 app.post("/stWorkspace", function(req, res) {
