@@ -125,14 +125,15 @@ module.exports = {
         });
         return true;
     },
-    deleteContainer: function(containerName) {
+    deleteContainer: function(containerName, gpu, callback) {
         commandName = editName(containerName);
-        model.getContainer(containerName, function(query) {
+        model.getContainer(containerName, gpu, function(query) {
             if (query) {
                 cmd("docker stop " + commandName);
                 cmd("docker rm " + commandName);
                 model.deleteContainer(containerName);
             }
+            return callback("Done");
         });
     },
     stContainer: function(containerName, gpu, callback) {
