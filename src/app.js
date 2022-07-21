@@ -8,6 +8,7 @@ var ip = require("ip");
 var controller = require("./app.controller");
 var __const = require("./constants");
 var workspaceName = process.env.SPACENAME
+var appPort = process.env.SPACEPORT
 var app = express();
 controller.createdb();
 
@@ -163,4 +164,4 @@ app.post("/stWorkspace", function(req, res) {
         res.redirect("/workspaces/" + req.session.currGPU);
     });
 });
-app.listen(8000);
+app.listen(appPort);
