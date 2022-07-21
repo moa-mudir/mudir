@@ -9,14 +9,15 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     environment: 
       - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+      - MYSQL_DATABASE=${DATABASE_NAME}
     ports:
       - 3306:3306
     volumes:
       - ${DATA_VOLUME}:/var/lib/mysql
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+        #  adminer:
+        #image: adminer
+        #restart: always
+        #ports:
+        #- 8080:8080
 

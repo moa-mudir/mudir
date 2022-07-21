@@ -7,7 +7,7 @@ var http = require('http');
 var ip = require("ip");
 var controller = require("./app.controller");
 var __const = require("./constants");
-
+var workspaceName = process.env.SPACENAME
 var app = express();
 controller.createdb();
 
@@ -34,7 +34,12 @@ app.get('/', function(req, res) {
 app.get('/sysInfo', function(req, res) {
     req.session.contGenerated = true;
     if (req.session.loggedin) {
-        res.render("sysInfo", { admin: req.session.adminLoggedIn, username: req.session.username, ip: ip.address() });
+        res.render("sysInfo", { 
+            admin: req.session.adminLoggedIn, 
+            username: req.session.username, 
+            ip: ip.address(),
+            spaceName: workspaceName 
+        });
     } else {
         res.redirect("/");
     }
@@ -43,7 +48,11 @@ app.get('/sysInfo', function(req, res) {
 app.get("/editUsers", function(req, res) {
     req.session.contGenerated = true;
     if (req.session.loggedin && req.session.adminLoggedIn) {
-        res.render("editUser", { admin: req.session.adminLoggedIn, username: req.session.username });
+        res.render("editUser", { 
+            admin: req.session.adminLoggedIn, 
+            username: req.session.username,
+            spaceName: workspaceName 
+        });
     } else {
         res.redirect("/");
     }
@@ -68,9 +77,15 @@ app.post("/changeGPU", function(req, res) {
 app.get('/workspaces/:currGPU', function(req, res) {
     if (req.session.loggedin) {
         controller.containersJSON(function(wsInfo) {
-            res.render("workspaces", { workspaces: wsInfo, admin: req.session.adminLoggedIn,
-                                       username: req.session.username, ip: req.session.currGPU,
-                                       GPUs: req.session.GPUs, contGenerated: req.session.contGenerated });
+            res.render("workspaces", {
+                spaceName: workspaceName,
+                workspaces: wsInfo, 
+                admin: req.session.adminLoggedIn,
+                username: req.session.username, 
+                ip: req.session.currGPU,
+                GPUs: req.session.GPUs, 
+                contGenerated: req.session.contGenerated 
+            });
         });
     } else {
         res.redirect("/");
@@ -148,4 +163,4 @@ app.post("/stWorkspace", function(req, res) {
         res.redirect("/workspaces/" + req.session.currGPU);
     });
 });
-app.listen(3000);
+app.listen(8000);
