@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:11.4.0-cudnn8-runtime-ubuntu20.04
 
 WORKDIR /jup
 
@@ -6,7 +6,11 @@ ADD requirements.txt requirements.txt
 
 # setup python
 RUN apt update \
-    && apt install -y python3.6 python3-pip python3-dev libffi-dev libssl-dev\
+&& apt install software-properties-common -y \
+&&  add-apt-repository ppa:deadsnakes/ppa -y
+
+RUN apt update \
+    && apt install -y python3.8 python3-pip python3-dev libffi-dev libssl-dev\
     libgl1-mesa-glx \
     curl \
     openssh-server \

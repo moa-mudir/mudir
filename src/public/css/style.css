@@ -232,7 +232,7 @@ body{
 .wrapper .main_content .workspaces button[class="workspace"]{
   position: inherit;
   font-size: 15px;
-  background: #323232;
+  background: #008000;
   border: 0px;
   border-radius: 5px;
   color: #FFFFFF;
@@ -271,7 +271,7 @@ body{
 .wrapper .main_content .workspaces button[class="workspaceRed"]{
   position: inherit;
   font-size: 15px;
-  background: #8b0000;
+  background: #D3D3D3;
   border: 0px;
   border-radius: 5px;
   color: #FFFFFF;
