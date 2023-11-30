@@ -164,4 +164,6 @@ app.post("/stWorkspace", function(req, res) {
         res.redirect("/workspaces/" + req.session.currGPU);
     });
 });
-app.listen(appPort);
+app.listen(appPort,'0.0.0.0',()=>{
+      console.log("server is listening on port " + appPort);
+})
