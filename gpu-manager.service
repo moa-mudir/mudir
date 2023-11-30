@@ -7,7 +7,8 @@ After=network-online.target
 EnvironmentFile=/home/ubuntu/mudir/.env
 WorkingDirectory=/home/ubuntu/mudir/src
 ExecStart=/usr/bin/node app.js
+Restart=always
+RestartSec=3
 
 [Install]
 WantedBy=multi-user.target
-
