@@ -1,4 +1,3 @@
-#FROM nvidia/cuda:11.4.0-cudnn8-runtime-ubuntu20.04
 FROM nvidia/cuda:11.6.1-cudnn8-devel-ubuntu20.04
 
 WORKDIR /jup
@@ -8,13 +7,14 @@ ADD requirements.txt requirements.txt
 # setup python
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update \
-&& apt install software-properties-common -y \
-&&  add-apt-repository ppa:deadsnakes/ppa -y
+    && apt install software-properties-common -y \
+    && add-apt-repository ppa:deadsnakes/ppa -y
 
 RUN apt update \
-    && apt install -y python3.8 python3-pip \
-	python3-dev libffi-dev libssl-dev \
-	libgl1-mesa-glx curl openssh-server git htop vim \
+    && apt install -y python3.10 python3.10-venv python3.10-dev python3-pip \
+    libgl1-mesa-glx libffi-dev libssl-dev \
+    curl git htop vim nano\
+    openssh-server \
     && /usr/bin/pip3 install -r requirements.txt -U \
     && jupyter notebook --generate-config \
     && echo "c.FileCheckpoints.checkpoint_dir = '/tmp/'" >> /root/.jupyter/jupyter_notebook_config.py
