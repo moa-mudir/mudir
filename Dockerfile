@@ -7,14 +7,22 @@ ADD requirements.txt requirements.txt
 # setup python
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update \
-    && apt install software-properties-common -y \
+    && apt remove -y python3.8 python3.8-venv python3.8-dev python3-pip \
+    && apt autoremove -y
+
+# Install software-properties-common and add deadsnakes PPA
+RUN apt install -y software-properties-common \
     && add-apt-repository ppa:deadsnakes/ppa -y
 
+# Install Python 3.10 and pip for Python 3.10
 RUN apt update \
-    && apt install -y python3.10 python3.10-venv python3.10-dev python3-pip \
+    && apt install -y python3.10 python3.10-venv python3.10-dev \
     libgl1-mesa-glx libffi-dev libssl-dev \
     curl git htop vim nano\
     openssh-server \
+    && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
+    && python3.10 get-pip.py \
+    && rm get-pip.py \
     && /usr/bin/pip3 install -r requirements.txt -U \
     && jupyter notebook --generate-config \
     && echo "c.FileCheckpoints.checkpoint_dir = '/tmp/'" >> /root/.jupyter/jupyter_notebook_config.py
